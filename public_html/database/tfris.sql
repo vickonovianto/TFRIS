@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2016 at 07:26 AM
+-- Generation Time: Apr 14, 2016 at 04:07 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -93,6 +93,7 @@ CREATE TABLE `member` (
   `id_member` int(11) NOT NULL,
   `id_lapangan` int(11) NOT NULL,
   `nama` varchar(256) NOT NULL,
+  `no_hp` varchar(256) NOT NULL,
   `hari_main` int(1) NOT NULL,
   `jam_main` time NOT NULL,
   `durasi_main` int(11) NOT NULL,
@@ -104,9 +105,9 @@ CREATE TABLE `member` (
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`id_member`, `id_lapangan`, `nama`, `hari_main`, `jam_main`, `durasi_main`, `tanggal_mulai`, `waktu_daftar`) VALUES
-(1, 2, 'Persib Bandung', 2, '15:00:00', 3, '2016-04-18', '2016-04-14 05:12:48'),
-(2, 1, 'Informatika ITB', 5, '15:00:00', 2, '2016-05-02', '2016-04-14 05:13:25');
+INSERT INTO `member` (`id_member`, `id_lapangan`, `nama`, `no_hp`, `hari_main`, `jam_main`, `durasi_main`, `tanggal_mulai`, `waktu_daftar`) VALUES
+(1, 2, 'Persib Bandung', '089665406740', 2, '15:00:00', 3, '2016-04-18', '2016-04-14 05:12:48'),
+(2, 1, 'Informatika ITB', '0809 8 9999', 5, '15:00:00', 2, '2016-05-02', '2016-04-14 05:13:25');
 
 -- --------------------------------------------------------
 
