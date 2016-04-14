@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Tambah Pemesanan</title>
+    <title>T-FRIS | Tambah Pembayaran</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -16,6 +16,12 @@
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="../plugins/iCheck/all.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="../plugins/colorpicker/bootstrap-colorpicker.min.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../plugins/select2/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -89,7 +95,7 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
               </a>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-book"></i>
                 <span>Pemesanan</span>
@@ -97,15 +103,15 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li class="active"><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <li><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
               </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-dollar"></i> <span>Pembayaran</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../pembayaran/"><i class="fa fa-circle-o"></i> Daftar Pembayaran</a></li>
-                  <li><a href="../pembayaran/create.html"><i class="fa fa-circle-o"></i> Tambah Pembayaran</a></li>
+                  <li class="active"><a href="../pembayaran/create.html"><i class="fa fa-circle-o"></i> Tambah Pembayaran</a></li>
                 </ul>
               </a>
             </li>
@@ -150,12 +156,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Pemesanan
+            Tambah Pembayaran
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="../pemesanan/"> Pemesanan</a></li>
-            <li class="active"> Tambah Pemesanan</li>
+            <li><a href="../pembayaran/"> Pembayaran</a></li>
+            <li class="active"> Tambah Pembayaran</li>
           </ol>
         </section>
 
@@ -188,7 +194,7 @@
                     </div>
                     <!-- Date and time range -->
                     <div class="form-group">
-                      <label>Waktu Pemakaian</label>
+                      <label>Waktu pemakaian:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-clock-o"></i>
@@ -197,11 +203,11 @@
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
                     <div class="form-group">
-                      <label for="tambahPemesananInputDurasi">Durasi</label>
-                      <input type="text" class="form-control" id="tambahPemesananInputDurasi" name="tambahPemesananInputDurasi" value="1">
+                      <label for="demo1">Durasi</label>
+                      <input type="text" class="form-control" id="demo1" name="demo1" value="1">
                     </div>
                     <div class="form-group">
-                      <label>Waktu Pemesanan</label>
+                      <label>Waktu pemesanan:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-clock-o"></i>
@@ -258,7 +264,7 @@
           radioClass: 'iradio_flat-green'
         });
 
-        $("input[name='tambahPemesananInputDurasi']").TouchSpin({
+        $("input[name='demo1']").TouchSpin({
                 min: 1,
                 max: 14,
                 step: 1,
