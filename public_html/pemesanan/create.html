@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="../plugins/iCheck/all.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -128,7 +126,7 @@
               </a>
             </li>
             <li class="treeview">
-              <a href="#">
+              <a href="../statistik/">
                 <i class="fa fa-bar-chart"></i>
                 <span>Statistik</span>
               </a>
@@ -166,13 +164,6 @@
                         <label for="tambahPemesananInputNama">Nama</label>
                         <input type="text" class="form-control" id="tambahPemesananInputNama" placeholder="Masukkan nama" name="nama" required>
                       </div>
-                      <!-- checkbox -->
-                      <div class="form-group">
-                        <label>
-                          <input type="checkbox" class="flat-red" name="ismember">
-                           Member
-                        </label>
-                      </div>
                       <div class="form-group">
                         <label>Lapangan</label>
                         <select class="form-control" required name="lapangan">
@@ -196,9 +187,25 @@
                       </div>
                       <h3 class="box-title">Pembayaran</h3>
                       <div class="form-group">
-                        <label for="tambahMaintenanceInputHarga">Jumlah bayar</label>
-                        <input type="text" class="form-control" id="tambahMaintenanceInputHarga" value="0" name="harga">
+                        <label for="harga">Jumlah bayar</label>
+                        <input type="text" class="form-control" id="harga" value="0" name="harga">
                       </div>
+                       <input id="num_pembayaran" name="num_pembayaran" type="hidden" value="0"/>
+                       <input id="timestamp" name="timestamp" type="hidden" value=""/>
+                      <button class="btn" onclick="tambahPembayaran()">Tambah Pembayaran</button><br><br>
+                      <div id="tabelpembayaran"></div>
+                      <table class="table table-bordered" >
+                        <thead>
+                          <tr>
+                            <th>Nomor</th>
+                            <th>Jumlah Bayar</th>
+                            <th>Waktu Bayar</th>
+                          </tr>
+                        </thead>
+
+                        <tbody id="tambah_table">
+                        </tbody>
+                      </table>
                   </div><!-- /.col -->
                 </div><!-- /.row -->
               </div><!-- /.box-body -->
@@ -226,8 +233,6 @@
     <script src="../plugins/daterangepicker/daterangepicker.js"></script>
     <!-- SlimScroll 1.3.0 -->
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="../plugins/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
@@ -239,13 +244,7 @@
     <script>
       $(function () {
         //Date range picker with time picker
-        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'MM/DD/YYYY h:mm'});
-
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass: 'iradio_flat-green'
-        });
+        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'YYYY-MM-DD h:mm'});
 
         $("input[name='durasi']").TouchSpin({
                 min: 1,
@@ -260,7 +259,42 @@
                 step: 500,
                 prefix: "Rp"
             });
+
+          if (window.XMLHttpRequest) {
+              // code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp = new XMLHttpRequest();
+          } else {
+              // code for IE6, IE5
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                  document.getElementById("tambah_table").innerHTML = xmlhttp.responseText;
+              }
+          };
+          xmlhttp.open("GET","pembayaran.php",true);
+          xmlhttp.send();
       });
+
+      function tambahPembayaran() {
+        $('#num_pembayaran').val( function(i, oldval) {
+            return ++oldval;
+        });
+
+        var x = $('#num_pembayaran').val();
+
+        var trWrapper = $("<tr id=\"tambah_data_" + x + "\" />");
+
+        var inputHarga = "<input type=\"hidden\" name=\"harga_" + x + "\" value=\"" + $("#harga").val() + "\"/>";
+
+        var elmNo = "<td>" + x + "</td>";
+        var elmHarga = "<td>" + $("#harga").val() + "</td>";
+
+        trWrapper.append(elmNo);
+        trWrapper.append(elmHarga);
+
+        $("#tambah_table").append(trWrapper);
+    }
     </script>
   </body>
 </html>

@@ -128,7 +128,7 @@
               </a>
             </li>
             <li class="treeview">
-              <a href="#">
+              <a href="../statistik/">
                 <i class="fa fa-bar-chart"></i>
                 <span>Statistik</span>
               </a>
@@ -187,7 +187,7 @@
               $i = $i + 1;
               echo "<td>" . $i . "</td>";
               echo "<td>" . $row['deskripsi'] . "</td>";
-              echo "<td>" . $row['jumlah_bayar'] . "</td>";
+              echo "<td>" . "Rp. " . number_format($row['jumlah_bayar'], 0, ',', '.') . "</td>";
               echo "<td>" . $row['waktu_bayar'] . "</td>";
               echo "</tr>";
               }
