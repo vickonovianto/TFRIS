@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Tambah Member</title>
+    <title>T-FRIS | Daftar Member</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -115,8 +115,8 @@
               <a href="#">
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
-                  <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li class="active"><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
+                  <li><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
                 </ul>
               </a>
             </li>
@@ -145,12 +145,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Member
+            Daftar Member
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="../member/"> Member</a></li>
-            <li class="active"> Tambah Member</li>
+            <li class="active"> Daftar Member</li>
           </ol>
         </section>
 
@@ -159,70 +159,56 @@
 
           <!-- SELECT2 EXAMPLE -->
           <div class="box box-primary">
-            <form role="form" action="insertmember.php" method="post">
-              <div class="box-body">
-                <div class="row">
-                  <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="tambahPemesananInputNama">Nama</label>
-                        <input type="text" class="form-control" id="tambahPemesananInputNama" placeholder="Masukkan nama" name="nama" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="tambahPemesananInputNomorHP">Nomor HP</label>
-                        <input type="number" class="form-control" id="tambahPemesananInputNomorHP" placeholder="Masukkan nomor HP" name="nomorhp" required>
-                      </div>
-                      <div class="form-group">
-                        <label>Hari</label>
-                        <select class="form-control" name="hari" required>
-                          <option>Senin</option>
-                          <option>Selasa</option>
-                          <option>Rabu</option>
-                          <option>Kamis</option>
-                          <option>Jumat</option>
-                          <option>Sabtu</option>
-                          <option>Minggu</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label>Lapangan</label>
-                        <select class="form-control" required name="lapangan">
-                          <option>Lapangan A</option>
-                          <option>Lapangan B</option>
-                        </select>
-                      </div>
-                      <!-- time Picker -->
-                      <div class="bootstrap-timepicker">
-                        <div class="form-group">
-                          <label>Waktu Pemakaian Lapangan</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="waktupemakaian" required>
-                            <div class="input-group-addon">
-                              <i class="fa fa-clock-o"></i>
-                            </div>
-                          </div><!-- /.input group -->
-                        </div><!-- /.form group -->
-                      </div>
-                      <div class="form-group">
-                        <label for="tambahMemberInputDurasi">Durasi Pemakaian Lapangan</label>
-                        <input type="text" class="form-control" id="tambahMemberInputDurasi" value="1" name="durasi" required>
-                      </div>
-                      <!-- Date and time range -->
-                      <div class="form-group">
-                        <label>Waktu Pengaktifan</label>
-                        <div class="input-group">
-                          <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                          </div>
-                          <input type="text" class="form-control pull-left" id="activetime" name="waktupengaktifan" required>
-                        </div><!-- /.input group --> 
-                      </div><!-- /.form group -->
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
+            <?php
+              $con=mysqli_connect("localhost","root","","tfris");
+              // Check connection
+              if (mysqli_connect_errno())
+              {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+              }
+
+              $result = mysqli_query($con,"SELECT * FROM member");
+
+              echo "<table class=\"table\">
+              <thead>
+                <tr>
+                  <th>Nomor</th>
+                  <th>Nama</th>
+                  <th>Nomor HP</th>
+                  <th>Lapangan</th>
+                  <th>Hari Main</th>
+                  <th>Jam Main</th>
+                  <th>Durasi Main</th>
+                  <th>Tanggal Mulai Main</th>
+                  <th>Waktu Pendaftaran</th>
+                </tr>
+              </thead>";
+
+              echo "<tbody>";
+
+              $i = 0;
+
+              while($row = mysqli_fetch_array($result))
+              {
+              echo "<tr>";
+              $i = $i + 1;
+              echo "<td>" . $i . "</td>";
+              echo "<td>" . $row['nama'] . "</td>";
+              echo "<td>" . $row['no_hp'] . "</td>";
+              echo "<td>" . $row['id_lapangan'] . "</td>";
+              echo "<td>" . $row['hari_main'] . "</td>";
+              echo "<td>" . $row['jam_main'] . "</td>";
+              echo "<td>" . $row['durasi_main'] . "</td>";
+              echo "<td>" . $row['tanggal_mulai'] . "</td>";
+              echo "<td>" . $row['waktu_daftar'] . "</td>";
+              echo "</tr>";
+              }
+              echo "</tbody>";
+              echo "</table>";
+
+              mysqli_close($con);
+            ?>
               </div><!-- /.box-body -->
-              <div class="box-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
           </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

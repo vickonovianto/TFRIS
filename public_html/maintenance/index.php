@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Tambah Member</title>
+    <title>T-FRIS | Tambah Maintenance</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -14,10 +14,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- Bootstrap time Picker -->
-    <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="../plugins/select2/select2.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../plugins/iCheck/all.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -111,20 +109,20 @@
                 </ul>
               </a>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li class="active"><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <li><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
                 </ul>
               </a>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
-                  <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
+                  <li  class="active"><a href="#"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
                   <li><a href="../maintenance/create.html"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
                 </ul>
               </a>
@@ -145,12 +143,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Member
+            Daftar Maintenance
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="../member/"> Member</a></li>
-            <li class="active"> Tambah Member</li>
+            <li><a href="../maintenance/"> Maintenance</a></li>
+            <li class="active"> Daftar Maintenance</li>
           </ol>
         </section>
 
@@ -159,70 +157,45 @@
 
           <!-- SELECT2 EXAMPLE -->
           <div class="box box-primary">
-            <form role="form" action="insertmember.php" method="post">
-              <div class="box-body">
-                <div class="row">
-                  <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="tambahPemesananInputNama">Nama</label>
-                        <input type="text" class="form-control" id="tambahPemesananInputNama" placeholder="Masukkan nama" name="nama" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="tambahPemesananInputNomorHP">Nomor HP</label>
-                        <input type="number" class="form-control" id="tambahPemesananInputNomorHP" placeholder="Masukkan nomor HP" name="nomorhp" required>
-                      </div>
-                      <div class="form-group">
-                        <label>Hari</label>
-                        <select class="form-control" name="hari" required>
-                          <option>Senin</option>
-                          <option>Selasa</option>
-                          <option>Rabu</option>
-                          <option>Kamis</option>
-                          <option>Jumat</option>
-                          <option>Sabtu</option>
-                          <option>Minggu</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label>Lapangan</label>
-                        <select class="form-control" required name="lapangan">
-                          <option>Lapangan A</option>
-                          <option>Lapangan B</option>
-                        </select>
-                      </div>
-                      <!-- time Picker -->
-                      <div class="bootstrap-timepicker">
-                        <div class="form-group">
-                          <label>Waktu Pemakaian Lapangan</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="waktupemakaian" required>
-                            <div class="input-group-addon">
-                              <i class="fa fa-clock-o"></i>
-                            </div>
-                          </div><!-- /.input group -->
-                        </div><!-- /.form group -->
-                      </div>
-                      <div class="form-group">
-                        <label for="tambahMemberInputDurasi">Durasi Pemakaian Lapangan</label>
-                        <input type="text" class="form-control" id="tambahMemberInputDurasi" value="1" name="durasi" required>
-                      </div>
-                      <!-- Date and time range -->
-                      <div class="form-group">
-                        <label>Waktu Pengaktifan</label>
-                        <div class="input-group">
-                          <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                          </div>
-                          <input type="text" class="form-control pull-left" id="activetime" name="waktupengaktifan" required>
-                        </div><!-- /.input group --> 
-                      </div><!-- /.form group -->
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
-              </div><!-- /.box-body -->
-              <div class="box-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
+            <?php
+              $con=mysqli_connect("localhost","root","","tfris");
+              // Check connection
+              if (mysqli_connect_errno())
+              {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+              }
+
+              $result = mysqli_query($con,"SELECT * FROM maintenance");
+
+              echo "<table class=\"table\">
+              <thead>
+                <tr>
+                  <th>Nomor</th>
+                  <th>Deskripsi</th>
+                  <th>Jumlah Bayar</th>
+                  <th>Waktu Pembayaran</th>
+                </tr>
+              </thead>";
+
+              echo "<tbody>";
+
+              $i = 0;
+
+              while($row = mysqli_fetch_array($result))
+              {
+              echo "<tr>";
+              $i = $i + 1;
+              echo "<td>" . $i . "</td>";
+              echo "<td>" . $row['deskripsi'] . "</td>";
+              echo "<td>" . $row['jumlah_bayar'] . "</td>";
+              echo "<td>" . $row['waktu_bayar'] . "</td>";
+              echo "</tr>";
+              }
+              echo "</tbody>";
+              echo "</table>";
+
+              mysqli_close($con);
+            ?>
           </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
@@ -243,6 +216,8 @@
     <script src="../plugins/daterangepicker/daterangepicker.js"></script>
     <!-- SlimScroll 1.3.0 -->
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="../plugins/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
@@ -250,27 +225,16 @@
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <script src="../src/jquery.bootstrap-touchspin.js"></script>
-     <!-- bootstrap time picker -->
-    <script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <!-- Page script -->
     <script>
       $(function () {
-        //Date range picker with time picker
-        $('#activetime').daterangepicker({singleDatePicker: true, format: 'YYYY-MM-DD'});
 
-        $("input[name='durasi']").TouchSpin({
-                min: 1,
-                max: 14,
-                step: 1,
-                postfix: "jam"
+        $("input[name='harga']").TouchSpin({
+                min: 0,
+                max: 1000000000,
+                step: 500,
+                prefix: "Rp"
             });
-      });
-
-       //Timepicker
-       $(".timepicker").timepicker({
-          showInputs: false, 
-          showMeridian: false,
-          minuteStep: 30
       });
     </script>
   </body>
