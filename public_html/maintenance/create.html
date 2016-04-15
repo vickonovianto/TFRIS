@@ -89,7 +89,7 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
               </a>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-book"></i>
                 <span>Pemesanan</span>
@@ -97,7 +97,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li class="active"><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <li><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -118,12 +118,12 @@
                 </ul>
               </a>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.html"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                  <li class="active"><a href="../maintenance/create.html"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
                 </ul>
               </a>
             </li>
@@ -131,14 +131,7 @@
               <a href="#">
                 <i class="fa fa-bar-chart"></i>
                 <span>Statistik</span>
-                <i class="fa fa-angle-left pull-right"></i>
               </a>
-              <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-                <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-              </ul>
             </li>
           </ul>
         </section>
@@ -150,12 +143,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Pemesanan
+            Tambah Maintenance
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="../pemesanan/"> Pemesanan</a></li>
-            <li class="active"> Tambah Pemesanan</li>
+            <li><a href="../maintenance/"> Maintenance</a></li>
+            <li class="active"> Tambah Maintenance</li>
           </ol>
         </section>
 
@@ -168,47 +161,15 @@
               <div class="row">
                 <div class="col-md-12">
                   <form role="form">
+                    <!-- textarea -->
                     <div class="form-group">
-                      <label for="tambahPemesananInputNama">Nama</label>
-                      <input type="text" class="form-control" id="tambahPemesananInputNama" placeholder="Masukkan nama">
-                    </div>
-                    <!-- checkbox -->
-                    <div class="form-group">
-                      <label>
-                        <input type="checkbox" class="flat-red" >
-                         Member
-                      </label>
+                      <label>Deskripsi</label>
+                      <textarea class="form-control" rows="5" id="tambahMaintenanceInputDeskripsi" placeholder="Masukkan deskripsi"></textarea>
                     </div>
                     <div class="form-group">
-                      <label>Lapangan</label>
-                      <select class="form-control">
-                        <option>Lapangan A</option>
-                        <option>Lapangan B</option>
-                      </select>
+                      <label for="tambahMaintenanceInputHarga">Harga</label>
+                      <input type="text" class="form-control" id="tambahMaintenanceInputHarga" name="tambahMaintenanceInputHarga" value="0">
                     </div>
-                    <!-- Date and time range -->
-                    <div class="form-group">
-                      <label>Waktu Pemakaian</label>
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-clock-o"></i>
-                        </div>
-                        <input type="text" class="form-control pull-left" id="usagetime">
-                      </div><!-- /.input group -->
-                    </div><!-- /.form group -->
-                    <div class="form-group">
-                      <label for="tambahPemesananInputDurasi">Durasi</label>
-                      <input type="text" class="form-control" id="tambahPemesananInputDurasi" name="tambahPemesananInputDurasi" value="1">
-                    </div>
-                    <div class="form-group">
-                      <label>Waktu Pemesanan</label>
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-clock-o"></i>
-                        </div>
-                        <input type="text" class="form-control pull-left" id="reservationtime">
-                      </div><!-- /.input group -->
-                    </div><!-- /.form group -->
                   </form>
                 </div><!-- /.col -->
               </div><!-- /.row -->
@@ -248,21 +209,12 @@
     <!-- Page script -->
     <script>
       $(function () {
-        //Date range picker with time picker
-        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'MM/DD/YYYY h:mm'});
-        $('#reservationtime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 1, timePicker12Hour: false, format: 'MM/DD/YYYY h:mm'});
 
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass: 'iradio_flat-green'
-        });
-
-        $("input[name='tambahPemesananInputDurasi']").TouchSpin({
-                min: 1,
-                max: 14,
-                step: 1,
-                postfix: "jam"
+        $("input[name='tambahMaintenanceInputHarga']").TouchSpin({
+                min: 0,
+                max: 1000000000,
+                step: 500,
+                prefix: "Rp"
             });
       });
     </script>
