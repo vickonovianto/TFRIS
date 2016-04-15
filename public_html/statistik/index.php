@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Statistik</title>
+    <title>T-FRIS | Daftar Member</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="../plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../plugins/select2/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -55,14 +57,14 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Irawan</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      Irawan
+                      <small>Super Administrator</small>
                     </p>
                   </li>
                   <!-- Menu Footer-->
@@ -113,7 +115,7 @@
               <a href="#">
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
-                  <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
                   <li><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
                 </ul>
               </a>
@@ -130,7 +132,7 @@
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-bar-chart"></i>
-                <span >Statistik</span>
+                <span>Statistik</span>
               </a>
             </li>
           </ul>
@@ -153,30 +155,30 @@
 
         <!-- Main content -->
         <section class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <!-- BAR CHART -->
+              <div class="box box-success">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Statistik Keuangan</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="chart">
+                    <canvas id="barChart" style="height:230px"></canvas>
+                  </div>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              <div class="legendChart">
+                <button class="btn btn-default margin">Pengeluaran</button>
+                <button class="btn btn-success margin">Pemasukan</button>
+              </div>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
 
-          <!-- SELECT2 EXAMPLE -->
-          <div class="box box-primary">
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12">
-                  <form role="form">
-                    <!-- textarea -->
-                    <div class="form-group">
-                      <label>Deskripsi</label>
-                      <textarea class="form-control" rows="5" id="tambahMaintenanceInputDeskripsi" placeholder="Masukkan deskripsi"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="tambahMaintenanceInputHarga">Harga</label>
-                      <input type="text" class="form-control" id="tambahMaintenanceInputHarga" name="tambahMaintenanceInputHarga" value="0">
-                    </div>
-                  </form>
-                </div><!-- /.col -->
-              </div><!-- /.row -->
-            </div><!-- /.box-body -->
-            <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
@@ -185,36 +187,98 @@
         </div>
         <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
       </footer>
-    </div><!-- ./wrapper -->
+
+
 
     <!-- jQuery 2.1.4 -->
-    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
-    <!-- date-range-picker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- SlimScroll 1.3.0 -->
-    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="../plugins/iCheck/icheck.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <!-- ChartJS 1.0.1 -->
+    <script src="../../plugins/chartjs/Chart.min.js"></script>
     <!-- FastClick -->
-    <script src="../plugins/fastclick/fastclick.min.js"></script>
+    <script src="../../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="../dist/js/app.min.js"></script>
+    <script src="../../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="../dist/js/demo.js"></script>
-    <script src="../src/jquery.bootstrap-touchspin.js"></script>
-    <!-- Page script -->
+    <script src="../../dist/js/demo.js"></script>
+    <!-- page script -->
     <script>
       $(function () {
+        /* ChartJS
+         * -------
+         * Here we will create a few charts using ChartJS
+         */
 
-        $("input[name='tambahMaintenanceInputHarga']").TouchSpin({
-                min: 0,
-                max: 1000000000,
-                step: 500,
-                prefix: "Rp"
-            });
+        //--------------
+        //- AREA CHART -
+        //--------------
+
+        var areaChartData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Desember"],
+          datasets: [
+            {
+              label: "Pemasukan",
+              fillColor: "rgba(210, 214, 222, 1)",
+              strokeColor: "rgba(210, 214, 222, 1)",
+              pointColor: "rgba(210, 214, 222, 1)",
+              pointStrokeColor: "#c1c7d1",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: [65000, 59000, 80000, 81000, 56000, 55000, 40000, 65000, 59000, 80000, 81000, 56000]
+            },
+            {
+              label: "Pengeluaran",
+              fillColor: "rgba(60,141,188,0.9)",
+              strokeColor: "rgba(60,141,188,0.8)",
+              pointColor: "#3b8bba",
+              pointStrokeColor: "rgba(60,141,188,1)",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(60,141,188,1)",
+              data: [28000, 48000, 40000, 19000, 86000, 27000, 90000, 35000, 69000, 50000, 91000, 26000]
+            }
+          ]
+        };
+
+        //-------------
+        //- BAR CHART -
+        //-------------
+        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+        var barChart = new Chart(barChartCanvas);
+        var barChartData = areaChartData;
+        barChartData.datasets[1].fillColor = "#00a65a";
+        barChartData.datasets[1].strokeColor = "#00a65a";
+        barChartData.datasets[1].pointColor = "#00a65a";
+        var barChartOptions = {
+          //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+          scaleBeginAtZero: true,
+          //Boolean - Whether grid lines are shown across the chart
+          scaleShowGridLines: true,
+          //String - Colour of the grid lines
+          scaleGridLineColor: "rgba(0,0,0,.05)",
+          //Number - Width of the grid lines
+          scaleGridLineWidth: 1,
+          //Boolean - Whether to show horizontal lines (except X axis)
+          scaleShowHorizontalLines: true,
+          //Boolean - Whether to show vertical lines (except Y axis)
+          scaleShowVerticalLines: true,
+          //Boolean - If there is a stroke on each bar
+          barShowStroke: true,
+          //Number - Pixel width of the bar stroke
+          barStrokeWidth: 2,
+          //Number - Spacing between each of the X value sets
+          barValueSpacing: 5,
+          //Number - Spacing between data sets within X values
+          barDatasetSpacing: 1,
+          //String - A legend template
+          legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+          //Boolean - whether to make the chart responsive
+          responsive: true,
+          maintainAspectRatio: true
+        };
+
+        barChartOptions.datasetFill = false;
+        barChart.Bar(barChartData, barChartOptions);
       });
     </script>
   </body>
