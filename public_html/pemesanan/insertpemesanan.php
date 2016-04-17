@@ -19,17 +19,23 @@
 	// set parameters and execute
 
 	// define variables and set to empty values
-	$idmember = 0;
-	$lapangan = $nama = $usagetime = $usagetime = $usagedatetime = $durasi = $status = $harga =  "";
+	$idmember = $totalharga = 0;
+	$lapangan = $nama = $usagetime = $usagetime = $usagedatetime = $durasi = $status = $harga = $num_pembayaran = $id_pemesanan = "";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  $nama = test_input($_POST["nama"]);
 	  $lapangan = test_input($_POST["lapangan"]);
 	  $usagedatetime = test_input($_POST["usagetime"]);
 	  $durasi = test_input($_POST["durasi"]);
-	  if ($_POST["harga"] != 0) {
-	  	$harga = test_input($_POST["harga"]);
-	  	$status = 1;
+	  $num_pembayaran = test_input($_POST["num_pembayaran"]);
+	  $totalharga = test_input($_POST["totalharga"]);
+	  if ($num_pembayaran != 0) {
+	  	if ($totalharga == 100000 * $durasi) {
+	  		$status = 1;
+	  	}
+	  	else {
+	  		$status = 0;
+	  	}
 	  } else {
 	  	$harga = 0;
 	  	$status = 0;
@@ -54,7 +60,37 @@
 	}
 
 	$stmt->execute();
-
 	$stmt->close();
+
+	$stmt = $conn->prepare("SELECT id_pemesanan FROM pemesanan WHERE id_member = ? AND id_lapangan = ? AND nama = ? AND tanggal_main = ? AND jam_main = ? AND durasi_main = ? AND status = ?");
+	$stmt->bind_param("iisssii", $idmember, $lapangan, $nama, $usagedate, $usagetime, $durasi, $status);
+	$stmt->execute();
+
+	$stmt->store_result();
+	$stmt->bind_result($id_pemesanan);
+	$stmt->close();
+
+	$i = 1;
+
+	while ($i <= $num_pembayaran) {
+		$stmt = $conn->prepare("INSERT INTO pembayaran (id_pemesanan, jumlah_bayar, waktu_bayar) VALUES (?, ?, ?)");
+		$stmt->bind_param("iis", $id_pemesanan, $harga, $waktu_bayar);
+
+		$harga = test_input($_POST["harga_" . $i]);
+		$waktu_bayar = test_input($_POST["timestamp_" . $i]);
+
+		$stmt->execute();
+		$stmt->close();
+
+		$i++;
+	}
+
+	// $stmt->close();
 	$conn->close();
+
+	// $host  = $_SERVER['HTTP_HOST'];
+	// $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	// $extra = 'index.php';
+	// header("Location: http://$host$uri/$extra");
+	// exit;
 ?>

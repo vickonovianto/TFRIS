@@ -191,8 +191,9 @@
                         <input type="text" class="form-control" id="harga" value="0" name="harga">
                       </div>
                        <input id="num_pembayaran" name="num_pembayaran" type="hidden" value="0"/>
+                       <input id="totalharga" name="totalharga" type="hidden" value="0"/>
                        <input id="timestamp" name="timestamp" type="hidden" value=""/>
-                      <button class="btn" onclick="tambahPembayaran()">Tambah Pembayaran</button><br><br>
+                      <button type ="button" class="btn" onclick="tambahPembayaran()">Tambah Pembayaran</button><br><br>
                       <div id="tabelpembayaran"></div>
                       <table class="table table-bordered" >
                         <thead>
@@ -240,6 +241,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <script src="../src/jquery.bootstrap-touchspin.js"></script>
+    <script src="../plugins/dateformat/date.format.js"></script>
     <!-- Page script -->
     <script>
       $(function () {
@@ -260,20 +262,20 @@
                 prefix: "Rp"
             });
 
-          if (window.XMLHttpRequest) {
-              // code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp = new XMLHttpRequest();
-          } else {
-              // code for IE6, IE5
-              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          xmlhttp.onreadystatechange = function() {
-              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                  document.getElementById("tambah_table").innerHTML = xmlhttp.responseText;
-              }
-          };
-          xmlhttp.open("GET","pembayaran.php",true);
-          xmlhttp.send();
+          // if (window.XMLHttpRequest) {
+          //     // code for IE7+, Firefox, Chrome, Opera, Safari
+          //     xmlhttp = new XMLHttpRequest();
+          // } else {
+          //     // code for IE6, IE5
+          //     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          // }
+          // xmlhttp.onreadystatechange = function() {
+          //     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          //         document.getElementById("tambah_table").innerHTML = xmlhttp.responseText;
+          //     }
+          // };
+          // xmlhttp.open("GET","pembayaran.php",true);
+          // xmlhttp.send();
       });
 
       function tambahPembayaran() {
@@ -283,15 +285,28 @@
 
         var x = $('#num_pembayaran').val();
 
+        $('#totalharga').val( function(i, oldval) {
+            return oldval + $("#harga").val();
+        });
+
+        var totalharga = $('#totalharga').val();
+
         var trWrapper = $("<tr id=\"tambah_data_" + x + "\" />");
 
+        var now = new Date();
+        var currentTimestamp = now.format("yyyy-mm-dd HH:MM:ss");
         var inputHarga = "<input type=\"hidden\" name=\"harga_" + x + "\" value=\"" + $("#harga").val() + "\"/>";
+        var inputTimestamp = "<input type=\"hidden\" name=\"timestamp_" + x + "\" value=\"" + currentTimestamp + "\"/>";
 
         var elmNo = "<td>" + x + "</td>";
         var elmHarga = "<td>" + $("#harga").val() + "</td>";
+        var elmTimestamp = "<td>" + currentTimestamp + "</td>";
 
         trWrapper.append(elmNo);
         trWrapper.append(elmHarga);
+        trWrapper.append(elmTimestamp);
+        trWrapper.append(inputHarga);
+        trWrapper.append(inputTimestamp);
 
         $("#tambah_table").append(trWrapper);
     }
