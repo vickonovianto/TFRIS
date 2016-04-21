@@ -246,7 +246,7 @@
     <script>
       $(function () {
         //Date range picker with time picker
-        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'YYYY-MM-DD h:mm'});
+        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'YYYY-MM-DD HH:mm'});
 
         $("input[name='durasi']").TouchSpin({
                 min: 1,
@@ -286,7 +286,7 @@
         var x = $('#num_pembayaran').val();
 
         $('#totalharga').val( function(i, oldval) {
-            return oldval + $("#harga").val();
+            return oldval * 1 + $("#harga").val() * 1;
         });
 
         var totalharga = $('#totalharga').val();

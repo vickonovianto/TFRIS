@@ -196,6 +196,9 @@
 
               mysqli_close($con);
             ?>
+              <div class="box-footer">
+                <button type="button" class="btn btn-primary pull-right" onclick="location.href='../maintenance/create.html';">Tambah Maintenance</button>
+              </div>
           </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

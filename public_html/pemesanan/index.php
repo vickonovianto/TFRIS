@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Statistik</title>
+    <title>T-FRIS | Jadwal Pemakaian</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -24,6 +24,9 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
     <link href="../src/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" media="all">
+    <!-- fullCalendar 2.2.5-->
+    <link rel="stylesheet" href="../plugins/fullcalendar-2.6.1/fullcalendar.min.css">
+    <link rel="stylesheet" href="../plugins/fullcalendar-2.6.1/fullcalendar.print.css" media="print">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -57,14 +60,14 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">Irawan</span>
+                  <span class="hidden-xs">Alexander Pierce</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <p>
-                      Irawan
-                      <small>Super Administrator</small>
+                      Alexander Pierce - Web Developer
+                      <small>Member since Nov. 2012</small>
                     </p>
                   </li>
                   <!-- Menu Footer-->
@@ -79,7 +82,7 @@
           </div>
         </nav>
       </header>
-      <!-- Left side column. contains the logo and sidebar -->
+     <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -91,14 +94,14 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
               </a>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-book"></i>
                 <span>Pemesanan</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
+                <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
                 <li><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
               </ul>
             </li>
@@ -129,8 +132,8 @@
                 </ul>
               </a>
             </li>
-            <li class="treeview active">
-              <a href="#">
+            <li class="treeview">
+              <a href="../statistik/">
                 <i class="fa fa-bar-chart"></i>
                 <span>Statistik</span>
               </a>
@@ -145,42 +148,42 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Statistik
+            Jadwal Pemakaian
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active"> Statistik</li>
+            <li><a href="../member/"> Pemesanan</a></li>
+            <li class="active"> Jadwal Pemakaian</li>
           </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
-          <div class="row">
-            <div class="col-md-12">
-              <!-- BAR CHART -->
-              <div class="box box-success">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Statistik Keuangan Tahun : </h3> 
 
-                        <select  required name="tahun" onChange="getData(this.options[this.selectedIndex].value)">
-                          <option>2016</option>
-                          <option>2015</option>
-                        </select>
-                      
-                </div>
-                <div class="box-body">
-                  <div class="chart">
-                    <canvas id="barChart" style="height:230px"></canvas>
-                  </div>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-              <div class="legendChart">
-                <button class="btn btn-default margin">Pengeluaran</button>
-                <button class="btn btn-success margin">Pemasukan</button>
-              </div>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
+          <!-- SELECT2 EXAMPLE -->
+          <div class="box box-primary">
+            <div id="calendar"></div>
+            <?php
+              $con=mysqli_connect("localhost","root","","tfris");
+              // Check connection
+              if (mysqli_connect_errno())
+              {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+              }
 
+              $result = mysqli_query($con,"SELECT * FROM pemesanan");
+
+              mysqli_close($con);
+            ?>
+            <div class="box-footer">
+              <button class="btn" style="background-color: #0073B7; color: white; border-radius: 4px; font-weight: bold;">Lapangan 1, Non-Member</button>
+              <button class="btn" style="background-color: #00C0EF; color: white; border-radius: 4px; font-weight: bold;">Lapangan 1, Member</button>
+              <button class="btn" style="background-color: #C30300; color: white; border-radius: 4px; font-weight: bold;">Lapangan 2, Non-Member</button>
+              <button class="btn" style="background-color: #F012BE; color: white; border-radius: 4px; font-weight: bold;">Lapangan 2, Member</button>
+              <button type="button" class="btn btn-primary pull-right" onclick="location.href='../pemesanan/create.html';">Tambah Pemesanan</button>
+              
+            </div>
+          </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
@@ -189,146 +192,87 @@
         </div>
         <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
       </footer>
-
-
+    </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
     <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="../bootstrap/js/bootstrap.min.js"></script>
-    <!-- ChartJS 1.0.1 -->
-    <script src="../plugins/chartjs/Chart.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
-    <!-- page script -->
+    <script src="../src/jquery.bootstrap-touchspin.js"></script>
+     <!-- bootstrap time picker -->
+    <script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="../plugins/fullcalendar-2.6.1/fullcalendar.min.js"></script>
+    <!-- Page script -->
     <script>
-      function getData(tahun) {
-        /* ChartJS
-         * -------
-         * Here we will create a few charts using ChartJS
-         */
-
-        //--------------
-        //- AREA CHART -
-        //--------------
-
-         $.ajax({
-          url: 'getpengeluaran.php?tahun=' + tahun,
-          type: 'GET',
-          async: false,
-          success: function(response) {
-            // var arr = response;
-            var obj = JSON.parse(response);
-            pengeluaran = [];
-            for (var x in obj) {
-              if (obj[x] == null) {
-                pengeluaran.push(0);
-              } else {
-                pengeluaran.push(obj[x]);
-              }
-            }
-            //var datapengeluaran = $.map(obj, function(el) { return el });
-             // window.alert(pengeluaran);
-          }
-        })
-
-          $.ajax({
-          url: 'getpemasukan.php?tahun=' + tahun,
-          type: 'GET',
-          async: false,
-          success: function(response) {
-            // var arr = response;
-            var obj = JSON.parse(response);
-            pemasukan = [];
-            for (var x in obj) {
-              if (obj[x] == null) {
-                pemasukan.push(0);
-              } else {
-                pemasukan.push(obj[x]);
-              }
-            }
-            //var datapengeluaran = $.map(obj, function(el) { return el });
-             // window.alert(pemasukan);
-          }
-        })
-
-         // window.alert(arr);
-
-        var areaChartData = {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Desember"],
-          datasets: [
-            {
-              label: "Pemasukan",
-              fillColor: "rgba(210, 214, 222, 1)",
-              strokeColor: "rgba(210, 214, 222, 1)",
-              pointColor: "rgba(210, 214, 222, 1)",
-              pointStrokeColor: "#c1c7d1",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
-              data: [pengeluaran[0], pengeluaran[1], pengeluaran[2], pengeluaran[3], pengeluaran[4], pengeluaran[5], pengeluaran[6], pengeluaran[7], pengeluaran[8], pengeluaran[9], pengeluaran[10], pengeluaran[11]]
-            },
-            {
-              label: "Pengeluaran",
-              fillColor: "rgba(60,141,188,0.9)",
-              strokeColor: "rgba(60,141,188,0.8)",
-              pointColor: "#3b8bba",
-              pointStrokeColor: "rgba(60,141,188,1)",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(60,141,188,1)",
-              data: [pemasukan[0], pemasukan[1], pemasukan[2], pemasukan[3], pemasukan[4], pemasukan[5], pemasukan[6], pemasukan[7], pemasukan[8], pemasukan[9], pemasukan[10], pemasukan[11]]
-            }
-          ]
-        };
-
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = $("#barChart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas);
-        var barChartData = areaChartData;
-        barChartData.datasets[1].fillColor = "#00a65a";
-        barChartData.datasets[1].strokeColor = "#00a65a";
-        barChartData.datasets[1].pointColor = "#00a65a";
-        var barChartOptions = {
-          //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-          scaleBeginAtZero: true,
-          //Boolean - Whether grid lines are shown across the chart
-          scaleShowGridLines: true,
-          //String - Colour of the grid lines
-          scaleGridLineColor: "rgba(0,0,0,.05)",
-          //Number - Width of the grid lines
-          scaleGridLineWidth: 1,
-          //Boolean - Whether to show horizontal lines (except X axis)
-          scaleShowHorizontalLines: true,
-          //Boolean - Whether to show vertical lines (except Y axis)
-          scaleShowVerticalLines: true,
-          //Boolean - If there is a stroke on each bar
-          barShowStroke: true,
-          //Number - Pixel width of the bar stroke
-          barStrokeWidth: 2,
-          //Number - Spacing between each of the X value sets
-          barValueSpacing: 5,
-          //Number - Spacing between data sets within X values
-          barDatasetSpacing: 1,
-          //String - A legend template
-          legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-          //Boolean - whether to make the chart responsive
-          responsive: true,
-          maintainAspectRatio: true
-        };
-
-        barChartOptions.datasetFill = false;
-        barChart.Bar(barChartData, barChartOptions);
-      }
-
       $(function () {
+        //Date range picker with time picker
+        $('#activetime').daterangepicker({singleDatePicker: true, format: 'YYYY-MM-DD'});
+
+        $("input[name='durasi']").TouchSpin({
+                min: 1,
+                max: 14,
+                step: 1,
+                postfix: "jam"
+            });
+
+        $.ajax({
+          url: 'getevents.php',
+          type: 'GET',
+          async: false,
+          success: function(response) {
+            json_events = response;
+          }
+        })
+
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        //Date for the calendar events (dummy data)
         var date = new Date();
-        var y = date.getFullYear();
-        getData(y);
+        var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear();
+        $('#calendar').fullCalendar({
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek'
+          },
+          buttonText: {
+            today: 'today',
+            month: 'month',
+            week: 'week'
+          },
+          defaultView: 'agendaWeek',
+          minTime: '08:00:00',
+          maxTime: '22:00:00',
+          timeFormat: 'H:mm',
+          slotLabelFormat:'HH:mm',
+          contentHeight: "auto",
+          allDaySlot: false,
+          eventOrder: "id",
+          events: JSON.parse(json_events)
+        });
+
+      });
+
+       //Timepicker
+       $(".timepicker").timepicker({
+          showInputs: false, 
+          showMeridian: false,
+          minuteStep: 30
       });
     </script>
   </body>

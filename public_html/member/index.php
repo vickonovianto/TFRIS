@@ -169,7 +169,7 @@
 
               $result = mysqli_query($con,"SELECT * FROM member");
 
-              echo "<table class=\"table\">
+              echo "<table class=\"table table-bordered\">
               <thead>
                 <tr>
                   <th>Nomor</th>
@@ -187,6 +187,8 @@
               echo "<tbody>";
 
               $i = 0;
+              $lapangan = "";
+              $hari = "";
 
               while($row = mysqli_fetch_array($result))
               {
@@ -195,10 +197,40 @@
               echo "<td>" . $i . "</td>";
               echo "<td>" . $row['nama'] . "</td>";
               echo "<td>" . $row['no_hp'] . "</td>";
-              echo "<td>" . $row['id_lapangan'] . "</td>";
-              echo "<td>" . $row['hari_main'] . "</td>";
-              echo "<td>" . $row['jam_main'] . "</td>";
-              echo "<td>" . $row['durasi_main'] . "</td>";
+              if ($row['id_lapangan'] == 1) {
+                $lapangan = "A";
+              } else if ($row['id_lapangan'] == 2) {
+                $lapangan = "B";
+              }
+              echo "<td>" . $lapangan . "</td>";
+              switch($row['hari_main']) {
+                case 1:
+                  $hari = "Senin";
+                  break;
+                case 2:
+                  $hari = "Selasa";
+                  break;
+                case 3:
+                  $hari = "Rabu";
+                  break;
+                case 4:
+                  $hari = "Kamis";
+                  break;
+                case 5:
+                  $hari = "Jumat";
+                  break;
+                case 6:
+                  $hari = "Sabtu";
+                  break;
+                case 7:
+                  $hari = "Minggu";
+                  break;
+              }
+              echo "<td>" . $hari . "</td>";
+              $date=date_create($row['jam_main']);
+              $jammain = date_format($date, "H:i");
+              echo "<td>" . $jammain . "</td>";
+              echo "<td>" . $row['durasi_main'] . " jam" . "</td>";
               echo "<td>" . $row['tanggal_mulai'] . "</td>";
               echo "<td>" . $row['waktu_daftar'] . "</td>";
               echo "</tr>";
@@ -208,7 +240,9 @@
 
               mysqli_close($con);
             ?>
-              </div><!-- /.box-body -->
+               <div class="box-footer">
+                      <button type="button" class="btn btn-primary pull-right" onclick="location.href='../member/create.html';">Tambah Member</button>
+              </div>
           </div><!-- /.box -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
