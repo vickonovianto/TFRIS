@@ -1,0 +1,10 @@
+<?php 
+	session_start();
+	unset($_SESSION['id_user']);
+	unset($_SESSION['username']);
+	unset($_SESSION['nama_akses']);
+	unset($_SESSION['kode_pemesanan']);
+	unset($_SESSION['kode_pembayaran']);
+	unset($_SESSION['kode_member']);
+	unset($_SESSION['kode_maintenance']);
+?>

@@ -7,7 +7,16 @@
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 
-	$stmt = $con->prepare("SELECT * FROM pemesanan ORDER BY tanggal_main, jam_main, id_lapangan");
+	$status = $_GET["status"] * 1;
+
+	if ($status == 2) {
+		$stmt = $con->prepare("SELECT * FROM pemesanan ORDER BY tanggal_main, jam_main, id_lapangan");
+	} else if ($status == 1) {
+		$stmt = $con->prepare("SELECT * FROM pemesanan WHERE status=1 ORDER BY tanggal_main, jam_main, id_lapangan");
+	} else if ($status == 0) {
+		$stmt = $con->prepare("SELECT * FROM pemesanan WHERE status=0 ORDER BY tanggal_main, jam_main, id_lapangan");
+	}
+
 	$stmt->execute();
 	$result = $stmt->get_result();
 	

@@ -12,16 +12,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="../plugins/iCheck/all.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-    <link href="../src/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,7 +30,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="../index.html" class="logo">
+        <a href="../index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>T-FRIS</b></span>
           <!-- logo for regular state and mobile devices -->
@@ -43,36 +38,35 @@
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+              <?php session_start(); if(isset($_SESSION['id_user'])) { ?>
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo $_SESSION['username']; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      <?php echo $_SESSION['username']; echo "<br>"; ?>
+                      <?php echo "<small>" . $_SESSION['nama_akses'] . "</small>"; ?>
                     </p>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <button class="btn btn-danger btn-flat" onclick="signOut()">Sign out</button>
                     </div>
                   </li>
                 </ul>
               </li>
+              <?php } else { ?>
+              <li>
+                <a href="../login/">Sign In</a>
+              </li>
+              <?php } ?>
             </ul>
           </div>
         </nav>
@@ -83,9 +77,9 @@
         <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            <li class="header">MENU</li>
             <li>
-              <a href="../index.html">
+              <a href="../index.php">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
               </a>
             </li>
@@ -97,24 +91,15 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
               </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dollar"></i> <span>Pembayaran</span> <i class="fa fa-angle-left pull-right"></i>
-                <ul class="treeview-menu">
-                  <li><a href="../pembayaran/"><i class="fa fa-circle-o"></i> Daftar Pembayaran</a></li>
-                  <li><a href="../pembayaran/create.html"><i class="fa fa-circle-o"></i> Tambah Pembayaran</a></li>
-                </ul>
-              </a>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <li><a href="../member/create.php"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
                 </ul>
               </a>
             </li>
@@ -123,7 +108,7 @@
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li  class="active"><a href="#"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.html"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                  <li><a href="../maintenance/create.php"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
                 </ul>
               </a>
             </li>
@@ -156,7 +141,7 @@
         <section class="content">
 
           <!-- SELECT2 EXAMPLE -->
-          <div class="box box-primary">
+          <div class="box box-danger">
             <?php
               $con=mysqli_connect("localhost","root","","tfris");
               // Check connection
@@ -197,7 +182,7 @@
               mysqli_close($con);
             ?>
               <div class="box-footer">
-                <button type="button" class="btn btn-primary pull-right" onclick="location.href='../maintenance/create.html';">Tambah Maintenance</button>
+                <button type="button" class="btn btn-success pull-right" onclick="location.href='../maintenance/create.php';">Tambah Maintenance</button>
               </div>
           </div><!-- /.box -->
         </section><!-- /.content -->
@@ -216,29 +201,26 @@
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <!-- date-range-picker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
     <!-- SlimScroll 1.3.0 -->
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="../plugins/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
-    <script src="../src/jquery.bootstrap-touchspin.js"></script>
     <!-- Page script -->
     <script>
-      $(function () {
-
-        $("input[name='harga']").TouchSpin({
-                min: 0,
-                max: 1000000000,
-                step: 500,
-                prefix: "Rp"
-            });
-      });
+       function signOut() {   
+        $.ajax({
+          url: '../login/logout.php',
+          type: 'GET',
+          async: false,
+          success: function(response) {
+            location.reload();
+          }
+        })
+      }
     </script>
   </body>
 </html>

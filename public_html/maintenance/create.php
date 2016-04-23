@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Tambah Pemesanan</title>
+    <title>T-FRIS | Tambah Maintenance</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../plugins/iCheck/all.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -33,7 +35,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="../index.html" class="logo">
+        <a href="../index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>T-FRIS</b></span>
           <!-- logo for regular state and mobile devices -->
@@ -41,36 +43,35 @@
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+              <?php session_start(); if(isset($_SESSION['id_user'])) { ?>
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo $_SESSION['username']; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      <?php echo $_SESSION['username']; echo "<br>"; ?>
+                      <?php echo "<small>" . $_SESSION['nama_akses'] . "</small>"; ?>
                     </p>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <button class="btn btn-danger btn-flat" onclick="signOut()">Sign out</button>
                     </div>
                   </li>
                 </ul>
               </li>
+              <?php } else { ?>
+              <li>
+                <a href="../login/">Sign In</a>
+              </li>
+              <?php } ?>
             </ul>
           </div>
         </nav>
@@ -81,13 +82,13 @@
         <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            <li class="header">MENU</li>
             <li>
-              <a href="../index.html">
+              <a href="../index.php">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
               </a>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-book"></i>
                 <span>Pemesanan</span>
@@ -95,33 +96,24 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li class="active"><a href="../pemesanan/create.html"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
               </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dollar"></i> <span>Pembayaran</span> <i class="fa fa-angle-left pull-right"></i>
-                <ul class="treeview-menu">
-                  <li><a href="../pembayaran/"><i class="fa fa-circle-o"></i> Daftar Pembayaran</a></li>
-                  <li><a href="../pembayaran/create.html"><i class="fa fa-circle-o"></i> Tambah Pembayaran</a></li>
-                </ul>
-              </a>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li><a href="../member/create.html"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <li><a href="../member/create.php"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
                 </ul>
               </a>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.html"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                  <li class="active"><a href="../maintenance/create.php"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
                 </ul>
               </a>
             </li>
@@ -141,12 +133,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Pemesanan
+            Tambah Maintenance
           </h1>
           <ol class="breadcrumb">
             <li><a href="../../"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="../pemesanan/"> Pemesanan</a></li>
-            <li class="active"> Tambah Pemesanan</li>
+            <li><a href="../maintenance/"> Maintenance</a></li>
+            <li class="active"> Tambah Maintenance</li>
           </ol>
         </section>
 
@@ -154,64 +146,25 @@
         <section class="content">
 
           <!-- SELECT2 EXAMPLE -->
-          <div class="box box-primary">
-            <form role="form" action="insertpemesanan.php" method="post">
+          <div class="box box-danger">
+            <form role="form" action="insertmaintenance.php" method="post">
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-12">
-                      <h3 class="box-title">Pemesanan</h3>
+                      <!-- textarea -->
                       <div class="form-group">
-                        <label for="tambahPemesananInputNama">Nama</label>
-                        <input type="text" class="form-control" id="tambahPemesananInputNama" placeholder="Masukkan nama" name="nama" required>
+                        <label>Deskripsi</label>
+                        <textarea class="form-control" rows="5" id="tambahMaintenanceInputDeskripsi" placeholder="Masukkan deskripsi" required name="deskripsi"></textarea>
                       </div>
                       <div class="form-group">
-                        <label>Lapangan</label>
-                        <select class="form-control" required name="lapangan">
-                          <option>Lapangan A</option>
-                          <option>Lapangan B</option>
-                        </select>
+                        <label for="tambahMaintenanceInputHarga">Jumlah bayar</label>
+                        <input type="text" class="form-control" id="tambahMaintenanceInputHarga" value="0" required name="harga">
                       </div>
-                      <!-- Date and time range -->
-                      <div class="form-group">
-                        <label>Waktu Pemakaian</label>
-                        <div class="input-group">
-                          <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                          </div>
-                          <input type="text" class="form-control pull-left" id="usagetime" required name="usagetime">
-                        </div><!-- /.input group -->
-                      </div><!-- /.form group -->
-                      <div class="form-group">
-                        <label for="tambahPemesananInputDurasi">Durasi</label>
-                        <input type="text" class="form-control" id="tambahPemesananInputDurasi" value="1" required name="durasi">
-                      </div>
-                      <h3 class="box-title">Pembayaran</h3>
-                      <div class="form-group">
-                        <label for="harga">Jumlah bayar</label>
-                        <input type="text" class="form-control" id="harga" value="0" name="harga">
-                      </div>
-                       <input id="num_pembayaran" name="num_pembayaran" type="hidden" value="0"/>
-                       <input id="totalharga" name="totalharga" type="hidden" value="0"/>
-                       <input id="timestamp" name="timestamp" type="hidden" value=""/>
-                      <button type ="button" class="btn" onclick="tambahPembayaran()">Tambah Pembayaran</button><br><br>
-                      <div id="tabelpembayaran"></div>
-                      <table class="table table-bordered" >
-                        <thead>
-                          <tr>
-                            <th>Nomor</th>
-                            <th>Jumlah Bayar</th>
-                            <th>Waktu Bayar</th>
-                          </tr>
-                        </thead>
-
-                        <tbody id="tambah_table">
-                        </tbody>
-                      </table>
                   </div><!-- /.col -->
                 </div><!-- /.row -->
               </div><!-- /.box-body -->
               <div class="box-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-success">Submit</button>
               </div>
             </form>
           </div><!-- /.box -->
@@ -234,6 +187,8 @@
     <script src="../plugins/daterangepicker/daterangepicker.js"></script>
     <!-- SlimScroll 1.3.0 -->
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="../plugins/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
@@ -241,75 +196,27 @@
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <script src="../src/jquery.bootstrap-touchspin.js"></script>
-    <script src="../plugins/dateformat/date.format.js"></script>
     <!-- Page script -->
     <script>
       $(function () {
-        //Date range picker with time picker
-        $('#usagetime').daterangepicker({singleDatePicker: true, timePicker: true, timePickerIncrement: 30, timePicker12Hour: false, format: 'YYYY-MM-DD HH:mm'});
 
-        $("input[name='durasi']").TouchSpin({
-                min: 1,
-                max: 14,
-                step: 1,
-                postfix: "jam"
-            });
-
-         $("input[name='harga']").TouchSpin({
+        $("input[name='harga']").TouchSpin({
                 min: 0,
                 max: 1000000000,
                 step: 500,
                 prefix: "Rp"
             });
-
-          // if (window.XMLHttpRequest) {
-          //     // code for IE7+, Firefox, Chrome, Opera, Safari
-          //     xmlhttp = new XMLHttpRequest();
-          // } else {
-          //     // code for IE6, IE5
-          //     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          // }
-          // xmlhttp.onreadystatechange = function() {
-          //     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          //         document.getElementById("tambah_table").innerHTML = xmlhttp.responseText;
-          //     }
-          // };
-          // xmlhttp.open("GET","pembayaran.php",true);
-          // xmlhttp.send();
       });
-
-      function tambahPembayaran() {
-        $('#num_pembayaran').val( function(i, oldval) {
-            return ++oldval;
-        });
-
-        var x = $('#num_pembayaran').val();
-
-        $('#totalharga').val( function(i, oldval) {
-            return oldval * 1 + $("#harga").val() * 1;
-        });
-
-        var totalharga = $('#totalharga').val();
-
-        var trWrapper = $("<tr id=\"tambah_data_" + x + "\" />");
-
-        var now = new Date();
-        var currentTimestamp = now.format("yyyy-mm-dd HH:MM:ss");
-        var inputHarga = "<input type=\"hidden\" name=\"harga_" + x + "\" value=\"" + $("#harga").val() + "\"/>";
-        var inputTimestamp = "<input type=\"hidden\" name=\"timestamp_" + x + "\" value=\"" + currentTimestamp + "\"/>";
-
-        var elmNo = "<td>" + x + "</td>";
-        var elmHarga = "<td>" + $("#harga").val() + "</td>";
-        var elmTimestamp = "<td>" + currentTimestamp + "</td>";
-
-        trWrapper.append(elmNo);
-        trWrapper.append(elmHarga);
-        trWrapper.append(elmTimestamp);
-        trWrapper.append(inputHarga);
-        trWrapper.append(inputTimestamp);
-
-        $("#tambah_table").append(trWrapper);
-    }
+       function signOut() {   
+        $.ajax({
+          url: '../login/logout.php',
+          type: 'GET',
+          async: false,
+          success: function(response) {
+            location.reload();
+          }
+        })
+      }
     </script>
   </body>
 </html>
