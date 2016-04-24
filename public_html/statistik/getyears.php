@@ -13,21 +13,16 @@
 	    die("Connection failed: " . $conn->connect_error);
 	}
 
-	$i = 1;
-	while ($i <= 12) {
-		$stmt = $conn->prepare("SELECT COUNT DISTINCT YEAR(waktu_bayar) FROM maintenance INNER JOIN pembayaran ON WHERE YEAR(waktu_bayar) = ? AND MONTH(waktu_bayar) = ?");
-		$stmt->bind_param("ii", $tahun, $i);
-		$stmt->execute();
+	$stmt = $conn->prepare("(SELECT DISTINCT YEAR(waktu_bayar) AS year FROM maintenance ORDER BY YEAR(waktu_bayar) DESC) UNION (SELECT DISTINCT YEAR(waktu_bayar) AS year FROM pembayaran ORDER BY YEAR(waktu_bayar) DESC)");
+	$stmt->execute();
 
-		$stmt->store_result();
-		$stmt->bind_result($pengeluaran);
-		$stmt->fetch();
-		$array[$i-1] = $pengeluaran * 1;
-		$i++;
+	$result = $stmt->get_result();
 
-		$stmt->close();
+	while ($row = mysqli_fetch_array($result)) {
+		echo "<option>" . $row['year'] . "</option>";
 	}
-	echo json_encode($array);
+
+	$stmt->close();
 
 	$conn->close();
 ?>

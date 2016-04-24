@@ -145,9 +145,7 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Statistik Keuangan Tahun : &nbsp</h3> 
 
-                        <select  required name="tahun" onChange="getData(this.options[this.selectedIndex].value)">
-                          <option>2016</option>
-                          <option>2015</option>
+                        <select id="tahun" required name="tahun" onChange="getData(this.options[this.selectedIndex].value)">
                         </select>
                       
                 </div>
@@ -312,6 +310,15 @@
         var date = new Date();
         var y = date.getFullYear();
         getData(y);
+
+        $.ajax({
+          url: 'getyears.php',
+          type: 'GET',
+          async: false,
+          success: function(response) {
+            $("#tahun").append(response);
+          }
+        })
       });
        function signOut() {   
         $.ajax({

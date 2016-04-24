@@ -165,7 +165,6 @@
                   <th>Durasi Main</th>
                   <th>Tanggal Mulai Main</th>
                   <th>Waktu Pendaftaran</th>
-                  <th class=\"text-center\">Edit</th>
                   <th class=\"text-center\">Delete</th>
                 </tr>
               </thead>";
@@ -219,8 +218,7 @@
               echo "<td>" . $row['durasi_main'] . " jam" . "</td>";
               echo "<td>" . $row['tanggal_mulai'] . "</td>";
               echo "<td>" . $row['waktu_daftar'] . "</td>";
-              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-xs center-block\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><span class=\"glyphicon glyphicon-pencil\"></span></button></p></td>";
-              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-danger btn-xs center-block\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-danger btn-xs center-block delete\" id=\"" . $row['id_member'] . "\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
               echo "</tr>";
               }
               echo "</tbody>";
@@ -228,79 +226,7 @@
 
               mysqli_close($con);
             ?>
-
-            <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Edit Member</h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label for="editMemberInputNama">Nama</label>
-                      <input type="text" class="form-control" id="editMemberInputNama" placeholder="Masukkan nama" name="nama" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="editMemberInputNomorHP">Nomor HP</label>
-                      <input type="number" class="form-control" id="editMemberInputNomorHP" placeholder="Masukkan nomor HP" name="nomorhp" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Hari</label>
-                        <select class="form-control" name="hari" required>
-                          <option>Senin</option>
-                          <option>Selasa</option>
-                          <option>Rabu</option>
-                          <option>Kamis</option>
-                          <option>Jumat</option>
-                          <option>Sabtu</option>
-                          <option>Minggu</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label>Lapangan</label>
-                        <select class="form-control" required name="lapangan">
-                          <option>Lapangan A</option>
-                          <option>Lapangan B</option>
-                        </select>
-                      </div>
-                      <!-- time Picker -->
-                      <div class="bootstrap-timepicker">
-                        <div class="form-group">
-                          <label>Waktu Pemakaian Lapangan</label>
-                          <div class="input-group">
-                            <div class="input-group-addon">
-                              <i class="fa fa-clock-o"></i>
-                            </div>
-                            <input type="text" class="form-control timepicker" name="waktupemakaian" required>
-                          </div><!-- /.input group -->
-                        </div><!-- /.form group -->
-                      </div>
-                      <div class="form-group">
-                        <label for="tambahMemberInputDurasi">Durasi Pemakaian Lapangan</label>
-                        <input type="text" class="form-control" id="tambahMemberInputDurasi" value="1" name="durasi" required>
-                      </div>
-                      <!-- Date and time range -->
-                      <div class="form-group">
-                        <label>Waktu Pengaktifan</label>
-                        <div class="input-group">
-                          <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
-                          </div>
-                          <input type="text" class="form-control pull-left" id="activetime" name="waktupengaktifan" required>
-                        </div><!-- /.input group --> 
-                      </div><!-- /.form group -->
-                  </div>
-                  <div class="modal-footer ">
-                    <button type="button" class="btn btn-primary btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-                  </div>
-                </div>
-                <!-- /.modal-content --> 
-              </div>
-              <!-- /.modal-dialog --> 
-            </div>
-                
-            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+               <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -308,17 +234,18 @@
                     <h4 class="modal-title custom_align" id="Heading">Delete Member</h4>
                   </div>
                   <div class="modal-body">
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp Apakah Anda yakin akan menghapus member ini?</div>
                   </div>
                   <div class="modal-footer ">
-                    <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                    <button type="button" class="btn btn-success" id="delete_yes"><span class="glyphicon glyphicon-ok-sign"></span> Ya</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Tidak</button>
                   </div>
                 </div>
                 <!-- /.modal-content --> 
               </div>
               <!-- /.modal-dialog --> 
             </div>
+           
               </div>
                <div class="box-footer">
                       <button type="button" class="btn btn-success pull-right" onclick="location.href='../member/create.php';">Tambah Member</button>
@@ -361,6 +288,23 @@
           }
         })
       }
+
+      $(function() {
+        $("button.delete").click(function(event) {
+          delete_id = this.id;
+        });    
+
+        $("#delete_yes").click(function(event) {
+          $.ajax({
+            url: 'delete.php?id=' + delete_id,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+              location.reload();
+            }
+          })
+        });    
+      });
     </script>
   </body>
 </html>

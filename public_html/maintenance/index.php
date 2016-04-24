@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>T-FRIS | Tambah Maintenance</title>
+    <title>T-FRIS | Daftar Maintenance</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -17,7 +17,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-
+    <link href="../src/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" media="all">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -159,6 +159,8 @@
                   <th>Deskripsi</th>
                   <th>Jumlah Bayar</th>
                   <th>Waktu Pembayaran</th>
+                  <th class=\"text-center\">Edit</th>
+                  <th class=\"text-center\">Delete</th>
                 </tr>
               </thead>";
 
@@ -174,6 +176,8 @@
               echo "<td>" . $row['deskripsi'] . "</td>";
               echo "<td>" . "Rp. " . number_format($row['jumlah_bayar'], 0, ',', '.') . "</td>";
               echo "<td>" . $row['waktu_bayar'] . "</td>";
+              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-xs center-block edit\" id=\"" . $row['id_maintenance'] . "\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><span class=\"glyphicon glyphicon-pencil\"></span></button></p></td>";
+              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-danger btn-xs center-block delete\" id=\"" . $row['id_maintenance'] . "\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
               echo "</tr>";
               }
               echo "</tbody>";
@@ -181,6 +185,44 @@
 
               mysqli_close($con);
             ?>
+              <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" id="edit-close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Edit Maintenance</h4>
+                  </div>
+                  <div class="modal-body" id="edit-body">
+                    
+                  </div>
+                  <div class="modal-footer ">
+                    <button type="button" id="updatebtn" class="btn btn-primary btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                  </div>
+                </div>
+                <!-- /.modal-content --> 
+              </div>
+              <!-- /.modal-dialog --> 
+            </div>
+                
+            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete Maintenance</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp Apakah Anda yakin akan menghapus maintenance ini?</div>
+                  </div>
+                  <div class="modal-footer ">
+                    <button type="button" class="btn btn-success" id="delete_yes"><span class="glyphicon glyphicon-ok-sign"></span> Ya</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Tidak</button>
+                  </div>
+                </div>
+                <!-- /.modal-content --> 
+              </div>
+              <!-- /.modal-dialog --> 
+            </div>
               <div class="box-footer">
                 <button type="button" class="btn btn-success pull-right" onclick="location.href='../maintenance/create.php';">Tambah Maintenance</button>
               </div>
@@ -209,6 +251,7 @@
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
+    <script src="../src/jquery.bootstrap-touchspin.js"></script>
     <!-- Page script -->
     <script>
        function signOut() {   
@@ -221,6 +264,61 @@
           }
         })
       }
+
+       $(function() {
+        $("button.delete").click(function(event) {
+          maintenance_id = this.id;
+        });  
+
+        $("button.edit").click(function(event) {
+          maintenance_id = this.id;
+          $.ajax({
+            url: 'loadeditdata.php?id=' + maintenance_id,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+              $("#edit-body").append(response);
+
+               $("input[name='harga']").TouchSpin({
+                  min: 0,
+                  max: 1000000000,
+                  step: 500,
+                  prefix: "Rp"
+                });    
+            }
+          })
+        });     
+
+        $("#delete_yes").click(function(event) {
+          $.ajax({
+            url: 'delete.php?id=' + maintenance_id,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+              location.reload();
+            }
+          })
+        });
+
+         $("#edit-close").click(function(event) {
+          $("#edit-body").empty();
+        });  
+
+         $("#updatebtn").click(function(event)  {
+          var editdata = { "id" : maintenance_id, "deskripsi" : $("textarea").val(), "jumlah_bayar" : $("input[name='harga']").val() }
+          //window.alert(maintenance_id);
+          $.ajax({
+            url: 'update.php',
+            type: 'POST',
+            data: editdata,
+            async: false,
+            success: function(response) {
+              location.reload();
+            }
+          })
+        });
+
+      });
     </script>
   </body>
 </html>
