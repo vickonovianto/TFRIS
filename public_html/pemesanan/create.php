@@ -185,7 +185,7 @@
                        <input id="timestamp" name="timestamp" type="hidden" value=""/>
                       <button type ="button" class="btn" onclick="tambahPembayaran()">Tambah Pembayaran</button><br><br>
                       <div id="tabelpembayaran"></div>
-                      <table class="table table-bordered" >
+                      <table class="table table-bordered table-striped" >
                         <thead>
                           <tr>
                             <th>Nomor</th>
@@ -232,6 +232,8 @@
     <script src="../dist/js/demo.js"></script>
     <script src="../src/jquery.bootstrap-touchspin.js"></script>
     <script src="../plugins/dateformat/date.format.js"></script>
+    <script src="../plugins/jquery-number/jquery.number.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
     <!-- Page script -->
     <script>
       $(function () {
@@ -274,8 +276,9 @@
         var inputTimestamp = "<input type=\"hidden\" name=\"timestamp_" + x + "\" value=\"" + currentTimestamp + "\"/>";
 
         var elmNo = "<td>" + x + "</td>";
-        var elmHarga = "<td>" + $("#harga").val() + "</td>";
-        var elmTimestamp = "<td>" + currentTimestamp + "</td>";
+        var elmHarga = "<td>" + "Rp. " + $.number($("#harga").val(), 0, ',', '.') + "</td>";
+        var displayTimestamp = now.format("yyyy-mm-dd HH:MM");
+        var elmTimestamp = "<td>" + displayTimestamp + "</td>";
 
         trWrapper.append(elmNo);
         trWrapper.append(elmHarga);

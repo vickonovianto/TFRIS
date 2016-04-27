@@ -17,6 +17,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -91,7 +92,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][0] == "1") { ?>
+                    <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php } ?>
               </ul>
             </li>
             <li class="treeview active">
@@ -99,7 +102,9 @@
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li><a href="../member/create.php"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <?php if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][0] == "1") {
+                    echo "<li><a href\"../member/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Member</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>
@@ -108,7 +113,9 @@
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.php"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                  <?php if (isset($_SESSION['kode_maintenance']) && $_SESSION['kode_maintenance'][0] == "1") {
+                    echo "<li><a href=\"../maintenance/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Maintenance</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>
@@ -153,7 +160,7 @@
 
               $result = mysqli_query($con,"SELECT * FROM member");
 
-              echo "<table class=\"table table-bordered\">
+              echo "<table id=\"tablemember\" class=\"table table-bordered table-striped\">
               <thead>
                 <tr>
                   <th>Nomor</th>
@@ -164,9 +171,11 @@
                   <th>Jam Main</th>
                   <th>Durasi Main</th>
                   <th>Tanggal Mulai Main</th>
-                  <th>Waktu Pendaftaran</th>
-                  <th class=\"text-center\">Delete</th>
-                </tr>
+                  <th>Waktu Pendaftaran</th>";
+                  if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][3] == "1") {
+                    echo "<th class=\"text-center\">Delete</th>";
+                  }
+                echo "</tr>
               </thead>";
 
               echo "<tbody>";
@@ -217,8 +226,12 @@
               echo "<td>" . $jammain . "</td>";
               echo "<td>" . $row['durasi_main'] . " jam" . "</td>";
               echo "<td>" . $row['tanggal_mulai'] . "</td>";
-              echo "<td>" . $row['waktu_daftar'] . "</td>";
-              echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-danger btn-xs center-block delete\" id=\"" . $row['id_member'] . "\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+              $date=date_create($row['waktu_daftar']);
+              $waktu_daftar = date_format($date, "Y-m-d H:i");
+              echo "<td>" . $waktu_daftar . "</td>";
+              if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][3] == "1") {
+               echo "<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-danger btn-xs center-block delete\" id=\"" . $row['id_member'] . "\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+              }
               echo "</tr>";
               }
               echo "</tbody>";
@@ -248,7 +261,9 @@
            
               </div>
                <div class="box-footer">
+                    <?php if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][0] == "1") { ?>
                       <button type="button" class="btn btn-success pull-right" onclick="location.href='../member/create.php';">Tambah Member</button>
+                    <?php } ?>
               </div>
           </div><!-- /.box -->
         </section><!-- /.content -->
@@ -275,6 +290,8 @@
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- Page script -->
     <script>
  
@@ -303,7 +320,17 @@
               location.reload();
             }
           })
-        });    
+        });
+
+        $('#tablemember').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": true
+        });
+
       });
     </script>
   </body>

@@ -94,7 +94,9 @@
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][0] == "1") { ?>
+                    <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php } ?>
               </ul>
             </li>
             <li class="treeview">
@@ -102,7 +104,9 @@
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li><a href="../member/create.php"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <?php if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][0] == "1") {
+                    echo "<li><a href\"../member/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Member</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>
@@ -111,7 +115,9 @@
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.php"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                  <?php if (isset($_SESSION['kode_maintenance']) && $_SESSION['kode_maintenance'][0] == "1") {
+                    echo "<li><a href=\"../maintenance/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Maintenance</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>
@@ -155,13 +161,58 @@
                 </select>
             </div>
             <div id="calendar"></div>
+            <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" id="edit-close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Edit Pemesanan</h4>
+                  </div>
+                  <form action="update.php" method="post">
+                  <div class="modal-body" id="edit-body">
+                    
+                  </div>
+                  <div class="modal-footer ">
+                    <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][3] == "1") { ?>
+                      <button type="button" id="deletebtn" class="btn btn-danger btn-lg pull-left" ><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                    <?php } ?>
+                    <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][2] == "1") { ?>
+                      <button type="submit" id="updatebtn" class="btn btn-primary btn-lg pull-right" ><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                    <?php } ?>
+                  </div>
+                  </form>
+                </div>
+                <!-- /.modal-content --> 
+              </div>
+              <!-- /.modal-dialog --> 
+            </div>
+             <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete Pemesanan</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp Apakah Anda yakin akan menghapus pemesanan ini?</div>
+                  </div>
+                  <div class="modal-footer ">
+                    <button type="button" class="btn btn-success" id="delete_yes"><span class="glyphicon glyphicon-ok-sign"></span> Ya</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Tidak</button>
+                  </div>
+                </div>
+                <!-- /.modal-content --> 
+              </div>
+              <!-- /.modal-dialog --> 
+            </div>
             <div class="box-footer">
               <button class="btn" style="background-color: #0073B7; color: white; border-radius: 4px; font-weight: bold;">Lapangan 1, Non-Member</button>
               <button class="btn" style="background-color: #00C0EF; color: white; border-radius: 4px; font-weight: bold;">Lapangan 1, Member</button>
               <button class="btn" style="background-color: #C30300; color: white; border-radius: 4px; font-weight: bold;">Lapangan 2, Non-Member</button>
               <button class="btn" style="background-color: #F012BE; color: white; border-radius: 4px; font-weight: bold;">Lapangan 2, Member</button>
-              <button type="button" class="btn btn-success pull-right" onclick="location.href='../pemesanan/create.php';">Tambah Pemesanan</button>
-              
+              <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][0] == "1") { ?>
+                <button type="button" class="btn btn-success pull-right" onclick="location.href='../pemesanan/create.php';">Tambah Pemesanan</button>
+              <?php } ?>
             </div>
           </div><!-- /.box -->
         </section><!-- /.content -->
@@ -192,6 +243,9 @@
     <!-- fullCalendar 2.2.5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="../plugins/fullcalendar-2.6.1/fullcalendar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="../plugins/dateformat/date.format.js"></script>
+    <script src="../plugins/jquery-number/jquery.number.js"></script>
     <!-- Page script -->
     <script>
       function getEvents(status) {  
@@ -228,15 +282,32 @@
           slotLabelFormat:'HH:mm',
           contentHeight: "auto",
           allDaySlot: false,
-          eventOrder: "id",
+          eventClick: function(calEvent, jsEvent, view) {
+            // window.alert('Event: ' + calEvent.id);
+            event_id = calEvent.id;
+            if (calEvent.backgroundColor == "#00C0EF" || calEvent.backgroundColor == "#F012BE") {
+              member = 1;
+              $('#updatebtn').prop('disabled', true);
+              $('#deletebtn').prop('disabled', true);
+            } else {
+              member = 0;
+              $('#updatebtn').prop('disabled', false);
+              $('#deletebtn').prop('disabled', false);
+            }
+            loadEditData();
+          }
         });
         $('#calendar').fullCalendar('removeEvents');
-        $('#calendar').fullCalendar('addEventSource', JSON.parse(json_events));         
+        $('#calendar').fullCalendar('addEventSource', JSON.parse(json_events));    
         $('#calendar').fullCalendar('rerenderEvents' );
       }
 
       $(function () {
         getEvents(2);
+
+        $("#edit-close").click(function(event) {
+          $("#edit-body").empty();
+        });  
       });
 
       function signOut() {   
@@ -249,6 +320,87 @@
           }
         })
       }
+
+        function loadEditData() {   
+        $.ajax({
+          url: 'loadeditdata.php?id=' + event_id + '&member=' + member,
+          type: 'GET',
+          async: false,
+          success: function(response) {
+            $("#edit-body").append(response); 
+            $('#edit').modal('show');  
+             $("input[name='tambahPemesananInputDurasi']").TouchSpin({
+                min: 1,
+                max: 14,
+                step: 1,
+                postfix: "jam"
+            }); 
+             $("input[name='harga']").TouchSpin({
+                min: 0,
+                max: 1000000000,
+                step: 500,
+                prefix: "Rp"
+            });
+          }
+        })
+      }
+
+      function tambahPembayaran() {
+        
+        $('#num_pembayaran_edit').val( function(i, oldval) {
+            return oldval * 1 + 1;
+        });
+
+        var x = $('#num_pembayaran_edit').val();
+        var i = $('#num_pembayaran_db').val();
+        i = i * 1 + x * 1;
+
+        $('#totalharga').val( function(i, oldval) {
+            return oldval * 1 + $("#harga").val() * 1;
+        });
+
+         $('#id_pemesanan').val( function(i, oldval) {
+            return event_id;
+        });
+
+        var totalharga = $('#totalharga').val();
+
+        var trWrapper = $("<tr id=\"tambah_data_" + x + "\" />");
+
+        var now = new Date();
+        var currentTimestamp = now.format("yyyy-mm-dd HH:MM:ss");
+        var inputHarga = "<input type=\"hidden\" name=\"harga_" + x + "\" value=\"" + $("#harga").val() + "\"/>";
+        var inputTimestamp = "<input type=\"hidden\" name=\"timestamp_" + x + "\" value=\"" + currentTimestamp + "\"/>";
+
+        var elmNo = "<td>" + i + "</td>";
+        var elmHarga = "<td>" + "Rp. " + $.number($("#harga").val(), 0, ',', '.') + "</td>";
+        var displayTimestamp = now.format("yyyy-mm-dd HH:MM");
+        var elmTimestamp = "<td>" + displayTimestamp + "</td>";
+
+        trWrapper.append(elmNo);
+        trWrapper.append(elmHarga);
+        trWrapper.append(elmTimestamp);
+        trWrapper.append(inputHarga);
+        trWrapper.append(inputTimestamp);
+
+        $("#tambah_table").append(trWrapper);
+
+    }
+
+     $("#deletebtn").click(function(event) {
+          $('#delete').modal('show');  
+        });  
+
+     $("#delete_yes").click(function(event) {
+          $.ajax({
+            url: 'delete.php?id=' + event_id,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+              location.reload();
+            }
+          })
+        });
     </script>
   </body>
 </html>

@@ -91,7 +91,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../pemesanan/"><i class="fa fa-circle-o"></i> Jadwal Pemakaian</a></li>
-                <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php if (isset($_SESSION['kode_pemesanan']) && $_SESSION['kode_pemesanan'][0] == "1") { ?>
+                    <li><a href="../pemesanan/create.php"><i class="fa fa-circle-o"></i> Tambah Pemesanan</a></li>
+                <?php } ?>
               </ul>
             </li>
             <li class="treeview">
@@ -99,7 +101,9 @@
                 <i class="fa fa-users"></i> <span>Member</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../member/"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
-                  <li><a href="../member/create.php"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
+                  <?php if (isset($_SESSION['kode_member']) && $_SESSION['kode_member'][0] == "1") {
+                    echo "<li><a href\"../member/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Member</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>
@@ -108,7 +112,9 @@
                 <i class="fa fa-wrench"></i> <span>Maintenance</span> <i class="fa fa-angle-left pull-right"></i>
                 <ul class="treeview-menu">
                   <li><a href="../maintenance/"><i class="fa fa-circle-o"></i> Daftar Maintenance</a></li>
-                  <li><a href="../maintenance/create.php"><i class="fa fa-circle-o"></i> Tambah Maintenance</a></li>
+                 <?php if (isset($_SESSION['kode_maintenance']) && $_SESSION['kode_maintenance'][0] == "1") {
+                    echo "<li><a href=\"../maintenance/create.php\"><i class=\"fa fa-circle-o\"></i> Tambah Maintenance</a></li>";
+                  } ?>
                 </ul>
               </a>
             </li>

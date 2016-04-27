@@ -13,7 +13,7 @@
 	    die("Connection failed: " . $conn->connect_error);
 	}
 
-	$stmt = $conn->prepare("(SELECT DISTINCT YEAR(waktu_bayar) AS year FROM maintenance ORDER BY YEAR(waktu_bayar) DESC) UNION (SELECT DISTINCT YEAR(waktu_bayar) AS year FROM pembayaran ORDER BY YEAR(waktu_bayar) DESC)");
+	$stmt = $conn->prepare("(SELECT DISTINCT YEAR(waktu_bayar) AS year FROM maintenance ORDER BY YEAR(waktu_bayar) DESC) UNION (SELECT DISTINCT YEAR(waktu_bayar) AS year FROM pembayaran ORDER BY YEAR(waktu_bayar) DESC) UNION SELECT YEAR(NOW())");
 	$stmt->execute();
 
 	$result = $stmt->get_result();
